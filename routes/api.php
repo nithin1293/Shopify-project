@@ -17,18 +17,3 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/refresh', [AuthController::class, 'refresh']);
 });
 
-// Route::group(['middleware' => ['jwt.auth']], function () {  
-//     Route::get('/address', [AddressController::class, 'index'])->name('address.index');
-//     Route::get('/address/create', [AddressController::class, 'create'])->name('address.create');
-//     Route::post('/address', [AddressController::class, 'store'])->name('address.store');
-// });
-// 
-Route::middleware(['auth:api'])->group(function () {
-   
-
-    // Customer addresses
-      Route::get('/customer/addresses', [AddressController::class, 'index']);
-    Route::post('/customer/addresses', [AddressController::class, 'store']);
-    Route::put('/customer/addresses/{id}', [AddressController::class, 'update']);
-    Route::delete('/customer/addresses/{id}', [AddressController::class, 'destroy']);
-});

@@ -7,7 +7,6 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\CustomerDashboardController;
-use App\Http\Controllers\AddressController;
 use App\Models\Store;
  Route::get('/', function () {
     return view('auth.register');
@@ -16,10 +15,6 @@ use App\Models\Store;
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login.form'); 
-
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login'); 
 
 
 
@@ -59,17 +54,5 @@ Route::get('/cart', function () {
     return view('cart');
 })->name('cart.show');
 use App\Http\Controllers\CartController;
-Route::get('/addresses', function () {
-    return view('address.index');
-})->name('addresses.index');
-
-Route::get('/addresses/create', function () {
-    return view('address.create');
-})->name('addresses.create');
-
-Route::get('/addresses/{id}/edit', function ($id) {
-    return view('address.edit', ['id' => $id]);
-})->name('addresses.edit');
-
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
