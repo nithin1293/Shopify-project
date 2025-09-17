@@ -8,11 +8,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\CustomerDashboardController;
 use App\Http\Controllers\AddressController;
-
-
 use App\Models\Store;
-
-Route::get('/', function () {
+ Route::get('/', function () {
     return view('auth.register');
  })->name('register.form');
 
@@ -62,15 +59,17 @@ Route::get('/cart', function () {
     return view('cart');
 })->name('cart.show');
 use App\Http\Controllers\CartController;
-Route::get('/address/create', [AddressController::class, 'createAddress'])->name('address.create');
-    Route::post('/address', [AddressController::class, 'storeAddress'])->name('address.store');
-    Route::get('/addresses', [AddressController::class, 'addresses'])->name('addresses.index');
-    Route::get('/address/{address}/edit', [AddressController::class, 'editAddress'])->name('address.edit');
-    Route::put('/address/{address}', [AddressController::class, 'updateAddress'])->name('address.update');
-    Route::post('/address/select', [AddressController::class, 'selectAddress'])->name('address.select');
+Route::get('/addresses', function () {
+    return view('address.index');
+})->name('addresses.index');
 
+Route::get('/addresses/create', function () {
+    return view('address.create');
+})->name('addresses.create');
 
-
+Route::get('/addresses/{id}/edit', function ($id) {
+    return view('address.edit', ['id' => $id]);
+})->name('addresses.edit');
 
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart');

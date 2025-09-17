@@ -2,25 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Store;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
 {
-    
-
-    public function createAddress()
+    public function index(Request $request)
     {
-        return view('address.create');
+        return response()->json($request->user()->addresses);
     }
 
-    public function storeAddress(Request $request)
+    public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'mobile_number' => 'required|string|max:15',
             'street' => 'required|string|max:255',
-            'landmark' => 'required|string|max:255',
+            'landmark' => 'nullable|string|max:255',
             'town' => 'required|string|max:255',
             'state' => 'required|string|max:255',
             'country' => 'required|string|max:255',
@@ -29,43 +26,20 @@ class AddressController extends Controller
             'address_type' => 'required|in:Home,Work',
         ]);
 
-        $request->user()->addresses()->create($request->all());
+        $address = $request->user()->addresses()->create($validated);
 
-        return redirect()->route('cart.index')->with('success', 'Address saved successfully!');
+        return response()->json($address, 201);
     }
 
-    public function selectAddress(Request $request)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'address_id' => 'required|exists:addresses,id',
-        ]);
+        $address = $request->user()->addresses()->findOrFail($id);
 
-        session(['selected_address_id' => $request->address_id]);
-
-        return redirect()->route('cart.index')->with('success', 'Address selected successfully!');
-    }
-
-    public function addresses(Request $request)
-    {
-        $addresses = $request->user()->addresses;
-        return view('address.index', compact('addresses'));
-    }
-
-    public function editAddress(Request $request, $addressId)
-    {
-        $address = $request->user()->addresses()->findOrFail($addressId);
-        return view('address.edit', compact('address'));
-    }
-
-    public function updateAddress(Request $request, $addressId)
-    {
-        $address = $request->user()->addresses()->findOrFail($addressId);
-
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'mobile_number' => 'required|string|max:15',
             'street' => 'required|string|max:255',
-            'landmark' => 'required|string|max:255',
+            'landmark' => 'nullable|string|max:255',
             'town' => 'required|string|max:255',
             'state' => 'required|string|max:255',
             'country' => 'required|string|max:255',
@@ -74,8 +48,16 @@ class AddressController extends Controller
             'address_type' => 'required|in:Home,Work',
         ]);
 
-        $address->update($request->all());
+        $address->update($validated);
 
-        return redirect()->route('addresses.index')->with('success', 'Address updated successfully!');
+        return response()->json($address);
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $address = $request->user()->addresses()->findOrFail($id);
+        $address->delete();
+
+        return response()->json(['message' => 'Address deleted successfully']);
     }
 }
