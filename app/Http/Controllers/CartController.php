@@ -12,14 +12,7 @@ class CartController extends Controller
      */
      public function index(Request $request)
     {
-        
-        $addresses = Auth::check() ? $request->user()->addresses : collect();
-        
-        $selectedAddress = null;
-        if (session()->has('selected_address_id')) {
-            $selectedAddress = Address::find(session('selected_address_id'));
-        }
-
-        return view('cart', compact( 'addresses', 'selectedAddress'));
+        // This view is now fully client-side. No data needs to be passed from the controller.
+        return view('cart');
     }
 }

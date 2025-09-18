@@ -7,7 +7,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\CustomerDashboardController;
+use App\Http\Controllers\AddressController;
 use App\Models\Store;
+
  Route::get('/', function () {
     return view('auth.register');
  })->name('register.form');
@@ -56,3 +58,6 @@ Route::get('/cart', function () {
 use App\Http\Controllers\CartController;
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::get('/addresses', [AddressController::class, 'indexWeb'])->name('addresses.index');
+Route::get('/addresses/create', [AddressController::class, 'createWeb'])->name('addresses.create');
+Route::post('/addresses/select/{id}', [AddressController::class, 'selectAddress'])->name('addresses.select');

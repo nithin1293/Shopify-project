@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Address;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AddressController extends Controller
 {
+    // API Methods
     public function index(Request $request)
     {
         return response()->json($request->user()->addresses);
@@ -59,5 +63,29 @@ class AddressController extends Controller
         $address->delete();
 
         return response()->json(['message' => 'Address deleted successfully']);
+    }
+
+    // Web Methods
+    public function show(Request $request, $id)
+    {
+        try {
+            // Find the address that belongs ONLY to the authenticated user
+            $address = $request->user()->addresses()->findOrFail($id);
+            return response()->json($address);
+        } catch (ModelNotFoundException $e) {
+            // If the address is not found for this user, return a clear 404 JSON response
+            return response()->json(['message' => 'Address not found for this user.'], 404);
+        }
+    }
+
+    // --- Web Methods ---
+    public function indexWeb(Request $request)
+    {
+        return view('addresses.index');
+    }
+
+    public function createWeb()
+    {
+        return view('addresses.create');
     }
 }
