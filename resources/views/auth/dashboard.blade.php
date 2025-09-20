@@ -57,7 +57,7 @@
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 @foreach($stores as $store)
-                    <a href="{{ route('dashboard.store.view', $store->id) }}" 
+                    <a href="{{ route('customize.view', $store->id) }}" 
                        class="group block bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
                         <div class="border-t-4 border-blue-500 w-1/4 mb-4 group-hover:w-full transition-all duration-300"></div>
                         <h2 class="text-xl font-bold text-gray-800">{{ $store->name }}</h2>

@@ -7,9 +7,22 @@ use App\Models\Theme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Cloudinary\Configuration\Configuration;
+use Cloudinary\Api\Upload\UploadApi;
 
 class StoreController extends Controller
 {
+    protected $uploadApi;
+
+    public function __construct()
+    {
+        // Configure Cloudinary
+        Configuration::instance(env('CLOUDINARY_URL'));
+
+        // Instantiate UploadApi
+        $this->uploadApi = new UploadApi();
+    }
+    
     public function create()
     {
         $themes = Theme::all(); 

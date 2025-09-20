@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\signin;
 
 class AuthController extends Controller
 {
@@ -25,6 +27,7 @@ class AuthController extends Controller
             'password'=> Hash::make($request->password),
             'user_type'=> $request->user_type,
         ]);
+        Mail::to($user->email)->send(new signin($user));
 
         $token = JWTAuth::fromuser($user);
 

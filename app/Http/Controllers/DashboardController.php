@@ -17,6 +17,13 @@ class DashboardController extends Controller
         $stores = Store::where('user_id', $user->id)->get();
         return view('dashboard', compact('stores'));
     }
+    public function showStore($id)
+{
+    $store = Store::with('products')->findOrFail($id);
+
+    return view('front', compact('store'));
+}
+
 
     public function viewStore($id)
     {

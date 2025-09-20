@@ -17,7 +17,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('products.store') }}" class="space-y-5">
+        <form method="POST" action="{{ route('products.store') }}" class="space-y-5" enctype="multipart/form-data">
             @csrf
 
             <!-- Store -->
@@ -49,6 +49,11 @@
             <div>
                 <label for="price" class="block text-gray-700 font-semibold mb-2">Price</label>
                 <input type="number" step="0.01" name="price" id="price" required
+                       class="w-full border-gray-300 rounded-lg p-2 bg-gray-50">
+            </div>
+            <div>
+                <label for="image" class="block text-gray-700 font-semibold mb-2">Product Image</label>
+                <input type="file" name="image" id="image"
                        class="w-full border-gray-300 rounded-lg p-2 bg-gray-50">
             </div>
 

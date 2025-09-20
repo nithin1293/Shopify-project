@@ -5,9 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Store;
 use Illuminate\Http\Request;
+use Cloudinary\Configuration\Configuration;
+use Cloudinary\Api\Upload\UploadApi;
 
 class ProductController extends Controller
 {
+    protected $uploadApi;
+
+    public function __construct()
+    {
+        // Configure Cloudinary
+        Configuration::instance(env('CLOUDINARY_URL'));
+
+        // Instantiate UploadApi
+        $this->uploadApi = new UploadApi();
+    }
      public function create()
     {
         
@@ -23,13 +35,28 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Add validation for the image
         ]);
+
+
+        $uploadedFile = $request->file('image');
+        $uploadResult = $this->uploadApi->upload($uploadedFile->getRealPath(), [
+                'folder' => 'profiles',
+                'resource_type' => 'image',
+                'transformation' => [
+                    ['width' => 300, 'height' => 300, 'crop' => 'fill'],
+                ],
+            ]);
+
+        // Handle image upload
+   
 
         Product::create([
             'store_id' => $request->store_id,
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
+            'image' => $uploadResult['secure_url'], // Save the image path to the database
         ]);
 
         return redirect()->back()->with('success', 'Product added successfully!');

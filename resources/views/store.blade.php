@@ -12,7 +12,7 @@
     <div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-md">
         <h1 class="text-2xl font-bold mb-6 text-center">Add Store</h1>
 
-        <form action="{{ route('store.insert') }}" method="POST" class="space-y-4" id="store-form">
+        <form action="{{ route('store.insert') }}" method="POST" class="space-y-4" enctype="multipart/form-data" id="store-form">
             @csrf
 
             <!-- Store Name -->
@@ -26,6 +26,7 @@
                 <label class="block font-medium text-gray-700">Domain</label>
                 <input type="text" name="domain" class="border rounded px-3 py-2 w-full focus:ring focus:ring-indigo-300" required>
             </div>
+            
 
             <!-- Store Theme -->
             <div>
@@ -39,6 +40,11 @@
                     @endif
                 </select>
             </div>
+            <div>
+    <label class="block font-medium text-gray-700">Logo</label>
+    <input type="file" name="logo" accept="image/*" 
+           class="border rounded px-3 py-2 w-full focus:ring focus:ring-indigo-300">
+</div>
 
             <!-- Submit -->
             <div class="flex justify-between space-x-4">

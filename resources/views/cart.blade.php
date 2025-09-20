@@ -5,16 +5,13 @@
 @section('content')
 <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Header -->
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-gray-900">Shopping Cart</h1>
             <p class="mt-2 text-gray-600">Review your items and proceed to checkout</p>
         </div>
 
         <div class="lg:grid lg:grid-cols-12 lg:gap-8">
-            <!-- Cart Items Section -->
             <div class="lg:col-span-8">
-                <!-- Shipping Address Card -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-lg font-semibold text-gray-900 flex items-center">
@@ -39,7 +36,6 @@
                     </div>
                 </div>
 
-                <!-- Cart Items -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200">
                     <div class="p-6 border-b border-gray-200">
                         <h2 class="text-lg font-semibold text-gray-900 flex items-center">
@@ -50,12 +46,10 @@
                         </h2>
                     </div>
                     <div id="cart-items" class="divide-y divide-gray-200">
-                        <!-- Cart items will be rendered here -->
-                    </div>
+                        </div>
                 </div>
             </div>
 
-            <!-- Order Summary Sidebar -->
             <div class="lg:col-span-4 mt-8 lg:mt-0">
                 <div class="sticky top-8">
                     <div id="cart-summary" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -89,31 +83,12 @@
         </div>
     </div>
 </div>
-
-<!-- Empty Cart State (hidden by default) -->
-<div id="empty-cart-state" class="hidden">
-    <div class="text-center py-16">
-        <div class="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
-            <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5l2.5 5M7 13h10"></path>
-            </svg>
-        </div>
-        <h3 class="text-xl font-semibold text-gray-900 mb-2">Your cart is empty</h3>
-        <p class="text-gray-600 mb-6 max-w-md mx-auto">Looks like you haven't added any items to your cart yet. Start shopping to fill it up!</p>
-        <a href="/customerDashboard" class="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-            </svg>
-            Continue Shopping
-        </a>
-    </div>
-</div>
 @endsection
 
 @section('scripts')
 <script>
-    // Helper function to get the user-specific cart key
-    function getCartKey() {
+    // ... (all other functions like getCartKey, incrementQuantity, etc. remain the same) ...
+     function getCartKey() {
         const userId = localStorage.getItem('user_id');
         if (!userId) {
             console.error("User ID not found for cart.");
@@ -121,14 +96,13 @@
         }
         return 'cart_' + userId;
     }
-
+    
     function renderCart() {
         const cartKey = getCartKey();
         let container = document.getElementById('cart-items');
         let summary = document.getElementById('cart-summary');
         let totalItemsEl = document.getElementById('total-items');
         let totalPriceEl = document.getElementById('total-price');
-        let emptyState = document.getElementById('empty-cart-state');
         
         container.innerHTML = '';
 
@@ -172,19 +146,29 @@
             summary.classList.add('hidden');
             return;
         }
-
+        
         cart.forEach(item => {
             totalItems += item.quantity;
             totalPrice += item.price * item.quantity;
+            
+            // --- THIS IS THE MODIFIED SECTION ---
+            let imageHtml = `
+                <div class="w-20 h-20 bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                    </svg>
+                </div>
+            `;
+            
+            if (item.image) {
+                imageHtml = `<img src="/storage/${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg flex-shrink-0">`;
+            }
+            // --- END OF MODIFIED SECTION ---
 
             container.innerHTML += `
                 <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
                     <div class="flex items-start space-x-4">
-                        <div class="w-20 h-20 bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                            </svg>
-                        </div>
+                        ${imageHtml} {{-- The dynamic image is inserted here --}}
                         <div class="flex-1 min-w-0">
                             <div class="flex justify-between items-start">
                                 <div class="flex-1">
@@ -228,7 +212,7 @@
         summary.classList.remove('hidden');
     }
 
-    function incrementQuantity(id) {
+     function incrementQuantity(id) {
         const cartKey = getCartKey();
         if (!cartKey) return;
         

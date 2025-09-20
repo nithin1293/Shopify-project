@@ -26,6 +26,7 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 
+
 Route::get('/customerDashboard', function () {
     $stores = Store::all(); // fetch all stores
     return view('auth.customerDashboard', compact('stores'));
@@ -35,6 +36,7 @@ Route::get('/customerDashboard', function () {
 Route::get('/dashboard/store/{id}', [DashboardController::class, 'viewStore'])->name('dashboard.store.view');
 // Route::get('/customer/dashboard/store/{id}', [CustomerDashboardController::class, 'viewStore'])->name('customer_dashboard.store.view');
 // Route::get('/customer/dashboard', [CustomerDashboardController::class, 'index'])->name('customer_dashboard');
+Route::get('/admindashboard/store/{id}', [DashboardController::class, 'showStore'])->name('customize.view');
 
 
 Route::get('/dashboard/store/{id}/products', [DashboardController::class, 'storeProducts']);

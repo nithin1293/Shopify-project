@@ -15,7 +15,8 @@ class Store extends Model
         'user_id', // Added this
         'name',
         'domain',
-        'theme_id', // And this
+        'theme_id',
+        'logo', // And this
     ];
     
     public function user()
