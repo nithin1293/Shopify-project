@@ -82,34 +82,31 @@
             return item.value;
         }
         document.getElementById('store-form').addEventListener('submit', async function (event) {
-            event.preventDefault();
+    event.preventDefault();
 
-      let storeData = {
-        name: document.querySelector('input[name="name"]').value,
-        domain: document.querySelector('input[name="domain"]').value,
-        theme_id: document.querySelector('select[name="theme_id"]').value
-      };
+    let token = getWithExpiry('token');
 
-      let res = await fetch('/api/stores', {
+    let formData = new FormData(this); // gathers all inputs, including file
+
+    let res = await fetch('/store', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + token
+            'Authorization': 'Bearer ' + token, // don't set Content-Type, fetch will do it automatically
+            'Accept': 'application/json'
         },
-        body: JSON.stringify(storeData)
-      });
-
-      let data = await res.json();
-
-      if (res.ok) {
-        alert('Store created successfully!');
-        document.getElementById('store-form').reset();
-        window.location.href = '/dashboard';
-      } else {
-        alert('Store creation failed: ' + JSON.stringify(data));
-      }
+        body: formData
     });
+
+    let data = await res.json();
+
+    if (res.ok) {
+        alert('Store created successfully!');
+        this.reset();
+        window.location.href = '/dashboard';
+    } else {
+        alert('Store creation failed: ' + JSON.stringify(data));
+    }
+});
     </script>
     
 </body>

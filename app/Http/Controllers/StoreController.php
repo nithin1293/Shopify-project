@@ -30,17 +30,60 @@ class StoreController extends Controller
     }
     
 
-    public function store(Request $request)
+ public function store(Request $request)
 {
-    $store = new Store();
-    $store->user_id = Auth::id();
-    $store->name = $request->name;
-    $store->domain = $request->domain;
-    $store->theme_id = $request->theme_id;
-    $store->save();
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'domain' => 'required|string|max:255|unique:stores',
+        'theme_id' => 'required|exists:themes,id',
+        'logo' => 'nullable|image|max:2048',
+        'description' => 'nullable|string',
+        'multi_channel_sales' => 'nullable|boolean',
+    ]);
 
-    return response()->json(['status' => 'success', 'message' => 'Store created successfully!']);
+    $logoUrl = null; // default value
+
+    if ($request->hasFile('logo')) {
+        $uploadedFile = $request->file('logo');
+        $uploadResults = $this->uploadApi->upload($uploadedFile->getRealPath(), [
+            'folder' => 'profiles',
+            'resource_type' => 'image',
+            'transformation' => [
+                ['width' => 300, 'height' => 300, 'crop' => 'fill'],
+            ],
+        ]);
+
+        $logoUrl = $uploadResults['secure_url']; // store the URL
+    }
+
+    Store::create([
+        'user_id' => Auth::id(),
+        'name' => $request->name,
+        'domain' => $request->domain,
+        'theme_id' => $request->theme_id,
+        'logo' => $logoUrl, // safe even if null
+    ]);
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Store created successfully!'
+    ]);
 }
+
+    
+
+   
+
+    
+    //  Store::create([
+    //         'user_id' => Auth::id(),
+    //         'name' => $request->name,
+    //         'domain' => $request->domain,
+    //         'theme_id' => $request->theme_id,
+    //         'logo' => $uploadResult['secure_url'], // Save the image path to the database
+    //     ]);
+
+    
 
     public function show($id)
     {

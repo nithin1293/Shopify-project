@@ -17,9 +17,19 @@
 
     <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-gray-200">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-            <a class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500" href="{{ route('customerDashboard') }}">
+            <a class="text-2xl font-bold text-black bg-clip-text" href="{{ route('customerDashboard') }}">
                 Shopify
             </a>
+            <div class="flex-1 max-w-2xl mx-8">
+                <div class="relative">
+                    <input type="text"  id="store-search-input"
+                           placeholder="Search for products, stores..." 
+                           class="w-full px-4 py-2 pl-10 pr-4 text-gray-700 bg-gray-100 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
             <div class="flex items-center space-x-2 sm:space-x-4">
                 <a href="{{ route('cart') }}" class="relative text-gray-500 hover:text-gray-900 p-2 rounded-full hover:bg-gray-100 transition-colors">
                     <i class="fas fa-shopping-cart fa-lg"></i>

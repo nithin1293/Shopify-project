@@ -35,11 +35,12 @@
                     
                     {{-- Buttons Container (pushed to the bottom) --}}
                     <div class="mt-auto pt-4 flex items-center space-x-2">
-                        <button 
-                            onclick="addToCart({{ $product->id }}, '{{ $product->name }}', {{ $product->price }}, '{{ $product->image }}')"
-                            class="flex-1 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition text-sm font-semibold">
-                            Add to Cart
-                        </button>
+                        <button                              
+    onclick="addToCart({{ $product->id }}, '{{ $product->name }}', {{ $product->price }}, '{{ $product->image }}')"                             
+    class="flex-1 bg-[#3A3A3A] text-white px-4 py-2 rounded-lg transition text-sm font-semibold flex items-center justify-center">                             
+    <i class="fas fa-shopping-cart mr-2"></i>
+    Add to Cart                         
+</button>
                         
                     </div>
                 </div>
