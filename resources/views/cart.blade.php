@@ -65,9 +65,15 @@
                                 <span>Total Amount</span>
                                 <span class="text-green-600">₹<span id="total-price">0</span></span>
                             </div>
-                            <button class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
-                                Proceed to Checkout
-                            </button>
+                            <form action="{{ route('razorpay.index') }}" method="GET">
+    <button 
+        type="submit"
+        class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+    >
+        Proceed to Checkout
+    </button>
+</form>
+
                             <div class="pt-4 border-t border-gray-200">
                                 <div class="flex items-center text-sm text-gray-600">
                                     <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -161,8 +167,9 @@
             `;
             
             if (item.image) {
-                imageHtml = `<img src="/storage/${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg flex-shrink-0">`;
-            }
+    imageHtml = `<img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-contain rounded-lg flex-shrink-0 bg-white">`;
+}
+
             // --- END OF MODIFIED SECTION ---
 
             container.innerHTML += `

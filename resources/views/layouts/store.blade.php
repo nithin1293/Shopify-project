@@ -20,7 +20,7 @@
 
                 <!-- Right: Actions -->
                 <div class="flex items-center space-x-4">
-                    <a href="{{ route('store.view') }}" 
+                    <a href="{{ route('products.view') }}" 
                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
                         Add Product
                     </a>

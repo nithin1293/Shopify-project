@@ -7,7 +7,9 @@
     @foreach($stores as $index => $store)
         <a href="{{ route('dashboard.store.view', ['id' => $store->id]) }}"
            class="group block bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl
-                   transform hover:scale-105 transition-all duration-300 ease-out border border-gray-200">
+                  transform hover:scale-105 transition-all duration-300 ease-out 
+                  border border-gray-200 store-card" 
+           data-name="{{ strtolower($store->name) }}">
                          
             <!-- Store Image/Banner -->
             <div class="relative h-48 overflow-hidden">
@@ -67,4 +69,26 @@
         </a>
     @endforeach
 </div>
+@endsection
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('product-search-input');
+        const stores = document.querySelectorAll('.store-card');
+
+        if (searchInput) {
+            searchInput.addEventListener('keyup', function(event) {
+                const searchTerm = event.target.value.toLowerCase();
+                stores.forEach(store => {
+                    const storeName = store.dataset.name;
+                    if (storeName.includes(searchTerm)) {
+                        store.style.display = 'block';
+                    } else {
+                        store.style.display = 'none';
+                    }
+                });
+            });
+        }
+    });
+</script>
 @endsection

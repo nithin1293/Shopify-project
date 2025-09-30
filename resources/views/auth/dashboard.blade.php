@@ -19,7 +19,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
                 </svg>
-                <span>Store</span>
+                <span>All Stores</span>
             </a>
             <a href="{{ route('theme.view') }}" 
                class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200">
@@ -50,22 +50,59 @@
 
     <main class="flex-1 p-8">
         <div class="max-w-7xl mx-auto">
+            <!-- Header Section -->
             <div class="mb-8">
                 <h1 class="text-3xl font-bold text-gray-800">All Stores</h1>
                 <p class="mt-2 text-gray-500">Click on a store to view its products with the applied theme.</p>
             </div>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Store Grid - IMPROVED VERSION -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 @foreach($stores as $store)
                     <a href="{{ route('customize.view', $store->id) }}" 
-                       class="group block bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
-                        <div class="border-t-4 border-blue-500 w-1/4 mb-4 group-hover:w-full transition-all duration-300"></div>
-                        <h2 class="text-xl font-bold text-gray-800">{{ $store->name }}</h2>
-                        <p class="text-sm text-gray-500 mt-1">{{ $store->domain }}</p>
+                       class="group block">
+                        
+                        <!-- Store Card -->
+                        <div class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2">
+                            
+                            <!-- Logo Container - Full Coverage -->
+                            <div class="aspect-square bg-white border-b border-gray-100 overflow-hidden">
+                                @if($store->logo)
+                                    <img src="{{ $store->logo }}" 
+                                         alt="{{ $store->name }} Logo" 
+                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                @else
+                                    <!-- Fallback for stores without a logo -->
+                                    <div class="w-full h-full bg-gray-100 flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                        </svg>
+                                    </div>
+                                @endif
+                            </div>
+                            
+                            <!-- Store Info -->
+                            <div class="p-6">
+                                <h2 class="text-lg font-semibold text-gray-900 truncate">{{ $store->name }}</h2>
+                                <p class="text-sm text-gray-500 mt-1 truncate">{{ $store->domain }}</p>
+                            </div>
+                        </div>
                     </a>
                 @endforeach
-                 
             </div>
+            
+            <!-- Empty State (if no stores) -->
+            @if($stores->isEmpty())
+                <div class="text-center py-16">
+                    <div class="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">No stores found</h3>
+                    <p class="text-gray-500">Get started by adding your first store.</p>
+                </div>
+            @endif
         </div>
     </main>
 
@@ -97,14 +134,14 @@
             const itemStr = localStorage.getItem(key);
             if (!itemStr) {
                 window.location.href = '/login';
-                return null; // Return null to prevent further execution
+                return null;
             }
             const item = JSON.parse(itemStr);
             const now = new Date();
             if (now.getTime() > item.expiry) {
                 localStorage.removeItem(key);
                 window.location.href = '/login';
-                return null; // Return null
+                return null;
             }
             return item.value;
         }
