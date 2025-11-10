@@ -1,9 +1,12 @@
 <?php
 
+
+
 namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // <-- ADD THIS LINE
 
 class OrderController extends Controller
 {
@@ -54,4 +57,21 @@ class OrderController extends Controller
         $order->delete();
         return response()->json(['message' => 'Order deleted successfully']);
     }
+
+    // --- ADD THIS NEW WEB METHOD ---
+    public function indexWeb(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login.form')->with('error', 'You must be logged in to see your orders.');
+        }
+
+        $orders = Order::where('customer_email', $user->email)
+                       ->with('orderItems.product') // Eager load order items and their products
+                       ->orderBy('created_at', 'desc') // Show newest orders first
+                       ->get();
+
+        return view('orders.my', compact('orders'));
+    }
+    // --- END OF NEW WEB METHOD ---
 }

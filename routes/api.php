@@ -3,11 +3,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\OrderDetailsController;
 use App\Models\Store;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/stores', [StoreController::class, 'store']);
+
 
 
 
@@ -22,4 +24,5 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/addresses/{id}', [AddressController::class, 'update']);
     Route::delete('/addresses/{id}', [AddressController::class, 'destroy']);
 });
+Route::post('/orders', [OrderDetailsController::class, 'store']);
 

@@ -9,5 +9,9 @@ class Payment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'email', 'phone', 'amount', 'order_id', 'razorpay_payment_id', 'status'];
+    protected $fillable = ['name', 'email', 'phone', 'amount', 'order_id', 'razorpay_payment_id', 'status','address_id' ];
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
 }

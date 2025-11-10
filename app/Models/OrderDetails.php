@@ -4,15 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class OrderDetails extends Model
 {
     protected $fillable = [
-        'store_id',
-        'customer_email',
+        'product_details',
+        'customer_name',
         'total',
         'status',
-        'user_id', // <-- ADD THIS
+        
     ];
+
+    protected $casts = [
+    'product_details' => 'array',
+    ];
+
 
     // ... (existing relationships) ...
 

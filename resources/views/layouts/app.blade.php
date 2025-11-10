@@ -75,12 +75,12 @@
 
                     <!-- Wishlist Icon -->
                     <div class="relative group">
-                        <a href="#" 
-                           class="flex items-center justify-center w-12 h-12 text-gray-600 hover:text-red-500 rounded-xl hover:bg-red-50 transition-all duration-300 group-hover:scale-110">
-                            <i class="fas fa-heart text-xl"></i>
+                        <a href="{{ route('orders.index') }}" 
+                           class="flex items-center justify-center w-12 h-12 text-gray-600 hover:text-blue-500 rounded-xl hover:bg-blue-50 transition-all duration-300 group-hover:scale-110">
+                            <i class="fas fa-box text-xl"></i>
                         </a>
                         <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
-                            Wishlist
+                            My Orders
                         </div>
                     </div>
 

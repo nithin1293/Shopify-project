@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use App\Models\Payment;
+use App\Models\Order;
 
 class RazorpayController extends Controller
 {
@@ -20,6 +21,7 @@ class RazorpayController extends Controller
             'email' => 'required|email',
             'phone' => 'required',
             'amount' => 'required|numeric|min:1',
+            'address_id' => 'required|exists:addresses,id',
         ]);
 
         $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
@@ -37,8 +39,14 @@ class RazorpayController extends Controller
             'phone' => $request->phone,
             'amount' => $request->amount,
             'order_id' => $order['id'],
-            'status' => 0
+            'status' => 0,
+            'address_id' => $request->address_id,
         ]);
+
+
+       
+        
+
 
         return view('razorpay.payment', [
             'orderId' => $order['id'],
@@ -56,7 +64,9 @@ class RazorpayController extends Controller
             return back()->with('error', 'Payment failed. Please try again.');
         }
 
-        $payment = Payment::where('order_id', $request->razorpay_order_id)->first();
+        $payment = Payment::with('address') // <-- ADDED ->with('address')
+                         ->where('order_id', $request->razorpay_order_id)
+                         ->first();
 
         if (!$payment) {
             return back()->with('error', 'Invalid payment record.');

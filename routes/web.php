@@ -10,6 +10,7 @@ use App\Http\Controllers\CustomerDashboardController;
 use App\Http\Controllers\AddressController;
 use App\Models\Store;
 use App\Http\Controllers\RazorpayController;
+use App\Http\Controllers\OrderDetailsController;
 
  Route::get('/', function () {
     return view('auth.register');
@@ -67,3 +68,7 @@ Route::post('/addresses/select/{id}', [AddressController::class, 'selectAddress'
 Route::get('/razorpay', [RazorpayController::class, 'index'])-> name('razorpay.index');
 Route::post('/razorpay/payment', [RazorpayController::class, 'payment'])->name('razorpay.payment');
 Route::post('/razorpay/success', [RazorpayController::class, 'success'])->name('razorpay.success');
+
+
+Route::post('/orders', [OrderDetailsController::class, 'store']);
+Route::get('/orders', [OrderDetailsController::class, 'index'])->name('orders.index');
