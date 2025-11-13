@@ -72,3 +72,7 @@ Route::post('/razorpay/success', [RazorpayController::class, 'success'])->name('
 
 Route::post('/orders', [OrderDetailsController::class, 'store']);
 Route::get('/orders', [OrderDetailsController::class, 'index'])->name('orders.index');
+Route::get('/dashboard/orders', [OrderDetailsController::class, 'all_orders'])->name('dashboard.orders');
+
+Route::post('/orders/{id}/ship', [OrderDetailsController::class, 'markAsShipped'])->name('orders.ship');
+Route::post('/orders/{id}/deliver', [OrderDetailsController::class, 'markAsDelivered'])->name('orders.deliver');

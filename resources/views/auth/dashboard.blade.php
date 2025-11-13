@@ -36,6 +36,14 @@
                 </svg>
                 <span>Products</span>
             </a>
+            <a href="{{ route('dashboard.orders') }}" 
+   class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M3 3h14v14H3z" />
+    </svg>
+    <span>Orders</span>
+</a>
+
             
             <form id="logout-form" class="pt-2 border-t border-gray-800">
                 <button id="logout-button" type="button" 

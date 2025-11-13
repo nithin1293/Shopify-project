@@ -74,9 +74,10 @@
                     </div>
 
                     <!-- Wishlist Icon -->
-                    <div class="relative group">
-                        <a href="{{ route('orders.index') }}" 
-                           class="flex items-center justify-center w-12 h-12 text-gray-600 hover:text-blue-500 rounded-xl hover:bg-blue-50 transition-all duration-300 group-hover:scale-110">
+                      <div class="relative group">
+                        <a href="#" 
+                        id="my-orders-link"
+                        class="flex items-center justify-center w-12 h-12 text-gray-600 hover:text-blue-500 rounded-xl hover:bg-blue-50 transition-all duration-300 group-hover:scale-110">
                             <i class="fas fa-box text-xl"></i>
                         </a>
                         <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
@@ -136,6 +137,24 @@
     </main>
 
     <script>
+
+            document.addEventListener('DOMContentLoaded', function() {
+            const myOrdersLink = document.getElementById('my-orders-link');
+
+            myOrdersLink.addEventListener('click', function(event) {
+                event.preventDefault(); // stop default click
+                const userId = localStorage.getItem('user_id');
+
+                if (!userId) {
+                    alert('You must be logged in to view your orders.');
+                    window.location.href = '/login';
+                    return;
+                }
+
+                // Redirect with query parameter
+                window.location.href = "{{ route('orders.index') }}" + "?user_id=" + encodeURIComponent(userId);
+            });
+        });
         // Helper function to get the user-specific cart key
         function getCartKey() {
             const userId = localStorage.getItem('user_id');

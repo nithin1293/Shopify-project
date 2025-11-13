@@ -11,6 +11,7 @@ class OrderDetails extends Model
         'customer_name',
         'total',
         'status',
+        'user_id',
         
     ];
 

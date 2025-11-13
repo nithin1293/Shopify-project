@@ -57,6 +57,7 @@
             try {
                 // Get user_id from localStorage
                 const userId = localStorage.getItem('user_id');
+                console.log("👤 User ID:", userId);
                 const cartKey = 'cart_' + userId;
                 const cartData = localStorage.getItem(cartKey);
 
@@ -73,7 +74,8 @@
                     customer_name: "{{ $name }}",   // From Laravel backend variable
                     product_details: productDetails, // From localStorage
                     total: {{ $amount }},            // From backend
-                    status: "pending"
+                    status: "pending",
+                    user_id: userId,
                 };
 
                 console.log("🛒 Sending order data:", payload);

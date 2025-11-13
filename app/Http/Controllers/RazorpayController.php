@@ -22,6 +22,7 @@ class RazorpayController extends Controller
             'phone' => 'required',
             'amount' => 'required|numeric|min:1',
             'address_id' => 'required|exists:addresses,id',
+            
         ]);
 
         $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
